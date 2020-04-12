@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Hangman</title>
+</head>
+
+<body>
+
+    <div>
+        <p id="directions-text"></p>
+
+        <p id="displaySplitMovie-text"></p>
+        <p id="displaySplitChar-text"></p>
+        <p id="demo"></p>
+
+        <p>-----------------------------</p>
+
+        <p id="hiddenMovie-text"></p>
+        <p id="displayRetainChar-text"></p>
+
+    </div>
+
+    <script>
+        let movies = [
+            "mulholland drive",
+            "persona",
+            "seven samurai",
+            "taxi driver",
+            "the godfather",
+            "apocalypse now",
+            "there will be blood",
+            "pulp fiction",
+            "stalker",
+            "the tree of life",
+            "dr strangelove",
+            "citizen kane",
+            "vertigo",
+            "in the mood for love",
+            "the empire strikes back",
+            "synecdoche new york",
+            "eternal sunshine of the spotless mind",
+            "the night of the hunter",
+            "fanny and alexander",
+            "rear window",
+            "spirited away",
+            "the good the bad and the ugly",
+            "paris texas",
+            "the shining",
+            "mirror",
+            "chinatown",
+            "goodfellas",
+            "the silence of the lambs",
+            "yi yi",
+            "blue velvet",
+            "andrei roublev",
+            "a clockwork orange",
+            "city lights",
+            "lawrence of arabia",
+            "brighter summer day",
+            "the seventh seal",
+            "chungking express",
+            "its a wonderful life",
+            "the double life of veronique",
+            "the third man",
+            "punch drunk love",
+            "blade runner",
+            "eraserhead",
+            "its such a beautiful day",
+            "annie hall",
+            "psycho",
+            "alien",
+            "one flew over the cuckoos nest",
+            "the big lebowski",
+            "her",
+            "the umbrellas of cherbourg",
+            "playtime",
+            "star wars",
+            "back to the future",
+            "once upon a time in the west",
+            "nashville",
+            "lost in translation",
+            "boogie nights",
+            "tokyo story",
+            "magnolia",
+            "au hasard balthazar",
+            "children of men",
+            "before sunset",
+            "badlands",
+            "rashomon",
+            "brazil",
+            "before sunrise",
+            "breathless",
+            "heavens gate",
+            "all that jazz",
+            "modern times",
+            "dazed and confused",
+            "last year at marienbad",
+            "casablanca",
+            "pans labyrinth",
+            "days of heaven",
+            "the royal tenenbaums",
+            "three colors red",
+            "the graduate",
+            "eyes wide shut",
+            "the passion of joan of arc",
+            "rosemarys baby",
+            "come and see",
+            "the apartment",
+            "rushmore",
+            "the master",
+            "the battle of algiers",
+            "sunrise",
+            "american beauty",
+            "fargo",
+            "close up",
+            "the thin red line",
+            "the red shoes"
+        ]
+
+        let directionsText = document.getElementById("directions-text");
+        let hiddenMovie = document.getElementById("hiddenMovie-text");
+        let displaySplitMovie = document.getElementById("displaySplitMovie-text");
+        let displaySplitChar = document.getElementById("displaySplitChar-text");
+        let displayRetainChar = document.getElementById("displayRetainChar-text");
+        let randomMovie = movies[Math.floor(Math.random() * movies.length)];
+        let splitMovie = randomMovie.split(" ");
+        let splitChar = randomMovie.split("");
+        let retainChar = randomMovie.split("");
+        let upperCaseMovie = randomMovie.toUpperCase();
+        let wrongGuess = 0;
+        //let charLength = randomMovie.length;
+
+        console.log(randomMovie);
+        console.log(randomMovie.length);
+        console.log(splitMovie.length);
+        console.log(upperCaseMovie);
+
+        function hideMovie(randomMovie) {
+            for (i = 0; i < splitChar.length; i++) {
+                splitChar[i] = "_";
+                document.getElementById("demo").innerHTML = (splitChar);
+            }
+        }
+
+        hideMovie(randomMovie);
+
+        //Displays a string char by char
+        // function displayChars(randomMovie) {
+        //     randomMovie = document.getElementById("demo").innerHTML;
+        //     document.getElementById("demo").innerHTML = randomMovie.split("");
+        // }
+
+        //displayChars(randomMovie);
+
+        // for (i = 0; i < randomMovie.length; i++) {
+        //     let hideStr = randomMovie.replace(/randomMovie[i]/ = "_");
+        //     document.getElementById("demo").innerHTML = hideStr;
+        // }
+
+
+        directionsText.textContent = "Welcome to Criterion Hangman!"
+        hiddenMovie.textContent = "Your hidden movie is " + upperCaseMovie;
+        displaySplitMovie.textContent = "Your split movie is " + splitMovie;
+        displaySplitChar.textContent = "Your split chars are " + splitChar;
+        displayRetainChar.textContent = "Your split retained chars are " + retainChar;
+
+
+        // function hideMovie(movieStr) {
+        //     for (i = 0; i < movieStr.length; i++) {
+        //         let hideStr = movieStr.replace(/movieStr(i)/g, "_");
+
+        //     console.log(movieStr);
+        // }
+
+        // hideMovie(randomMovie);
+
+        document.onkeyup = function (event) {
+
+            let userGuess = event.key;
+
+            for (i = 0; i < retainChar.length; i++) {
+
+                if (userGuess.toLowerCase() === randomMovie[i]) {
+                    console.log("We've got a match!");
+                    splitChar[i] = randomMovie[i].toUpperCase();
+                    displaySplitChar.textContent = "Current status: " + splitChar;
+                } else {
+                    wrongGuess++;
+                }
+
+
+            }
+        }
+
+
+        // Hide the directions
+        //directionsText.textContent = "";
+
+
+    </script>
+
+</body>
+
+</html>
