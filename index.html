@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/style.css">
     <title>JavaScript Hangman</title>
 </head>
 
 <body>
 
-    <div>
+    <div class="container">
+
         <p id="directions-text"></p>
 
         <h2 id="displaySplitChar-text"></h2>
@@ -18,10 +20,16 @@
         <p id="hiddenMovie-text"></p>
         <p id="displayRetainChar-text"></p>
         <p id="remainingGuesses-text"></p>
+        <p id="chosenGuesses-text"></p>
+        <br>
+        <br>
+        <p id="getWins-text"></p>
+        <p id="getLosses-text"></p>
 
     </div>
 
     <script>
+
         let movies = [
             "mulholland drive",
             "persona",
@@ -117,24 +125,41 @@
             "the thin red line",
             "the red shoes"
         ]
-
         let directionsText = document.getElementById("directions-text");
         let hiddenMovie = document.getElementById("hiddenMovie-text");
         let remainingGuesses = document.getElementById("remainingGuesses-text");
         let displayHiddenMovie = document.getElementById("displayHiddenMovie-text");
         let displaySplitChar = document.getElementById("displaySplitChar-text");
         let displayRetainChar = document.getElementById("displayRetainChar-text");
+        let chosenGuesses = document.getElementById("chosenGuesses-text");
+        let displayWins = document.getElementById("getWins-text");
+        let displayLosses = document.getElementById("getLosses-text");
         let randomMovie = movies[Math.floor(Math.random() * movies.length)];
         let splitChar = randomMovie.split("");
         let retainChar = randomMovie.split("");
         let wrongGuess = 6;
         let chosen = [];
 
+
+
         console.log(randomMovie);
         console.log(randomMovie.length);
         console.log(randomMovie.toUpperCase());
 
+
+
+        //displaySplitChar.textContent = splitChar.join(" ");
+
+        console.log(splitChar.join(" "));
+        console.log(retainChar);
+
+        //displayHiddenMovie.textContent = "Your puzzle is: " + splitChar;
+
+        directionsText.textContent = "Welcome to Criterion Hangman!"
+        //displayRetainChar.textContent = "Your split retained chars are " + retainChar;
+
         function hideMovie(randomMovie) {
+
             for (i = 0; i < splitChar.length; i++) {
 
                 if (splitChar[i] == " ") {
@@ -144,6 +169,8 @@
                 } else if (splitChar[i] == "-") {
 
                 } else if (splitChar[i] == "'") {
+
+                } else if (splitChar[i] == ".") {
 
                 } else {
                     splitChar[i] = "_";
@@ -155,39 +182,89 @@
 
         displaySplitChar.textContent = splitChar.join(" ");
 
-        console.log(splitChar.join(" "));
-        console.log(retainChar);
-
-        //displayHiddenMovie.textContent = "Your puzzle is: " + splitChar;
-
-        directionsText.textContent = "Welcome to Criterion Hangman!"
-        //displayRetainChar.textContent = "Your split retained chars are " + retainChar;
 
 
         document.onkeyup = function (event) {
 
             let userGuess = event.key;
+            //let randomMovie = movies[Math.floor(Math.random() * movies.length)];
+            //let splitChar = randomMovie.split("");
+            let guessStatus = 0;
+            let wins = 0;
+            let losses = 0;
+            //let gameOver = false;
 
             chosen.push(userGuess);
             console.log(chosen);
 
-            for (i = 0; i < retainChar.length; i++) {
+
+
+
+
+            //if (gameOver === false) {
+
+            // This loop checks to see if the entered letter matches those in the puzzle
+            for (i = 0; i < splitChar.length; i++) {
 
                 if (userGuess.toLowerCase() === randomMovie[i]) {
                     console.log("We've got a match!");
                     splitChar[i] = randomMovie[i].toUpperCase();
-                    displaySplitChar.textContent = "Current status: " + splitChar.join(" ");
-                    console.log(splitChar.join(" "));
+                    displaySplitChar.textContent = "Current puzzle: " + splitChar.join(" ");
+                    guessStatus++;
                 }
-
-                // } else {
-                //     wrongGuess = (wrongGuess - 1);
-                //     remainingGuesses.textContent = "Remaining incorrect guesses: " + wrongGuess;
-                //     chosen.push(userGuess);
-                //     console.log(chosen);
-                // }
             }
+
+            // This loop checks to see if the puzzle has been completed
+            for (i = 0; i < splitChar.length; i++) {
+
+                let stillPlay = splitChar.includes("_");
+
+                // If underscores still exist, just keep guessing
+                if (stillPlay) {
+
+                } else {
+                    // If no underscores remain, this action runs and ends the loop
+                    alert("You've won!  Press OK to play again");
+                    displaySplitChar.textContent = (randomMovie.toUpperCase());
+                    wins++;
+                    displayWins.textContent = "Wins: " + wins;
+                    //gameOver = true;
+                    i = splitChar.length;
+                }
+            }
+
+            // This checks to see if there was a matching guess, if not, remaining guesses goes down
+            if (guessStatus === 0) {
+                wrongGuess--;
+            }
+
+            // This checks to see if the user has run out of guesses
+            if (wrongGuess === 0) {
+
+                displaySplitChar.textContent = (randomMovie.toUpperCase());
+                alert("Sorry, you lose.  Press OK to play again.");
+                //gameOver = true;
+
+                //displaySplitChar.textContent = splitChar.join(" ");
+                losses++;
+                displayLosses.textContent = "Losses: " + losses;
+                wrongGuess = 6;
+                chosen.length = 0;
+            }
+
+
+
+            console.log(splitChar.join(" "));
+            console.log(guessStatus);
+            console.log(wrongGuess);
+            remainingGuesses.textContent = "You have " + wrongGuess + " remaining guesses.";
+            chosenGuesses.textContent = "So far, you have chosen the following letters: " + chosen;
+
+            //} else {
         }
+
+
+        // Remaining guesses
 
 
 
