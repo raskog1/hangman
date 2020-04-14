@@ -30,6 +30,7 @@
 
     <script>
 
+        // List of puzzles
         let movies = [
             "mulholland drive",
             "persona",
@@ -125,6 +126,8 @@
             "the thin red line",
             "the red shoes"
         ]
+
+        // Display variables for HTML
         let directionsText = document.getElementById("directions-text");
         let hiddenMovie = document.getElementById("hiddenMovie-text");
         let remainingGuesses = document.getElementById("remainingGuesses-text");
@@ -134,35 +137,39 @@
         let chosenGuesses = document.getElementById("chosenGuesses-text");
         let displayWins = document.getElementById("getWins-text");
         let displayLosses = document.getElementById("getLosses-text");
+
+        // Variables used in game
         let randomMovie = movies[Math.floor(Math.random() * movies.length)];
         let splitChar = randomMovie.split("");
         let retainChar = randomMovie.split("");
         let wrongGuess = 6;
         let chosen = [];
 
-
-
-        console.log(randomMovie);
-        console.log(randomMovie.length);
+        // console.log(randomMovie.length);
         console.log(randomMovie.toUpperCase());
 
 
 
         //displaySplitChar.textContent = splitChar.join(" ");
 
-        console.log(splitChar.join(" "));
-        console.log(retainChar);
+        //console.log(splitChar.join(" "));
+        //console.log(retainChar);
+
 
         //displayHiddenMovie.textContent = "Your puzzle is: " + splitChar;
 
         directionsText.textContent = "Welcome to Criterion Hangman!"
         //displayRetainChar.textContent = "Your split retained chars are " + retainChar;
 
+
+        // Initializes first puzzle (Can't get || to work on the if statement, resulting in a lot of else if's)
         function hideMovie(randomMovie) {
 
             for (i = 0; i < splitChar.length; i++) {
 
                 if (splitChar[i] == " ") {
+
+                    //splitChar[i] = \s;
 
                 } else if (splitChar[i] == ",") {
 
@@ -178,43 +185,44 @@
             }
         }
 
-
         hideMovie(randomMovie);
+        displaySplitChar.textContent = "Current puzzle: " + (splitChar.join(" "));
+
+
+        console.log(splitChar.join(" "));
 
 
         let gameOver = false;
         let wins = 0;
         let losses = 0;
 
+        alphanumeric.onkeyup = function (event) {
+
+            let userGuess = event.key;
+            let letters = /^[a-zA-Z]+$/;
+
+            if (userGuess.value.match(letters)) {
+                return true;
+            }
+            else {
+                alert("Please select a letter.");
+                return false;
+            }
+        }
+
+
 
         document.onkeyup = function (event) {
+
 
             let userGuess = event.key;
             let guessStatus = 0;
 
 
+
             chosen.push(userGuess);
             console.log(chosen);
 
-            function hideMovie(randomMovie) {
-
-                for (i = 0; i < splitChar.length; i++) {
-
-                    if (splitChar[i] == " ") {
-
-                    } else if (splitChar[i] == ",") {
-
-                    } else if (splitChar[i] == "-") {
-
-                    } else if (splitChar[i] == "'") {
-
-                    } else if (splitChar[i] == ".") {
-
-                    } else {
-                        splitChar[i] = "_";
-                    }
-                }
-            }
 
             // This loop checks to see if the entered letter matches those in the puzzle
             for (i = 0; i < splitChar.length; i++) {
@@ -237,12 +245,13 @@
 
                 } else {
                     // If no underscores remain, this action runs and ends the loop
-                    alert("You've won!  Press OK to play again");
+                    alert("You've won! The solution was: " + randomMovie.toUpperCase() + " Press OK to play again");
                     displaySplitChar.textContent = (randomMovie.toUpperCase());
-                    wins++;
-                    displayWins.textContent = "Wins: " + wins;
                     chosen.length = 0;
                     gameOver = true;
+                    wins++;
+                    displayWins.textContent = "Wins: " + wins;
+                    wrongGuess = 6;
                     i = splitChar.length;
                 }
             }
@@ -256,36 +265,31 @@
             if (wrongGuess === 0) {
 
                 displaySplitChar.textContent = (randomMovie.toUpperCase());
-                alert("Sorry, you lose.  Press OK to play again.");
+                alert("Sorry, you lose. The correct solution was: " + randomMovie.toUpperCase() + "  Press OK to play again.");
                 gameOver = true;
-
-                //displaySplitChar.textContent = splitChar.join(" ");
                 losses++;
                 displayLosses.textContent = "Losses: " + losses;
                 wrongGuess = 6;
                 chosen.length = 0;
             }
 
+            // This resets the game when gameOver become true
             if (gameOver) {
 
                 randomMovie = movies[Math.floor(Math.random() * movies.length)];
                 splitChar = randomMovie.split("");
                 hideMovie(randomMovie);
-                displaySplitChar.textContent = splitChar.join(" ")
+                displaySplitChar.textContent = "Current puzzle: " + splitChar.join(" ");
                 console.log("New random movie is: " + randomMovie);
                 console.log("The new splitchar looks liek: " + splitChar);
                 gameOver = false;
             }
-
-
 
             console.log(splitChar.join(" "));
             console.log(guessStatus);
             console.log(wrongGuess);
             remainingGuesses.textContent = "You have " + wrongGuess + " remaining guesses.";
             chosenGuesses.textContent = "So far, you have chosen the following letters: " + chosen;
-
-
 
         }
 
