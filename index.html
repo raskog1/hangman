@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" type="text/stylesheet" href="./assets/style.css">
     <title>JavaScript Hangman</title>
 </head>
 
 <body>
 
     <div class="container">
-
+        <h1>Welcome to Criterion Hangman!</h1>
         <p id="directions-text"></p>
 
         <h2 id="displaySplitChar-text"></h2>
@@ -148,13 +148,7 @@
         // console.log(randomMovie.length);
         console.log(randomMovie.toUpperCase());
 
-
-
         //displaySplitChar.textContent = splitChar.join(" ");
-
-        //console.log(splitChar.join(" "));
-        //console.log(retainChar);
-
 
         //displayHiddenMovie.textContent = "Your puzzle is: " + splitChar;
 
@@ -196,31 +190,42 @@
         let wins = 0;
         let losses = 0;
 
-        alphanumeric.onkeyup = function (event) {
-
-            let userGuess = event.key;
-            let letters = /^[a-zA-Z]+$/;
-
-            if (userGuess.value.match(letters)) {
-                return true;
-            }
-            else {
-                alert("Please select a letter.");
-                return false;
-            }
-        }
-
-
 
         document.onkeyup = function (event) {
 
 
             let userGuess = event.key;
             let guessStatus = 0;
+            const letters = /[A-Za-z]/;
 
 
 
-            chosen.push(userGuess);
+            // Verifies if an alpha character was selected.
+            for (i = 0; i < chosen[i]; i++) {
+
+                if (userGuess.match(letters)) {
+
+                    if (userGuess == chosen[i]) {
+
+                    }
+
+                } else {
+                    alert("Please select a letter.");
+                    wrongGuess++;
+                }
+            }
+
+            // This checks to see if a guess is being duplicated.
+            if (chosen.includes(userGuess)) {
+
+                alert("You already selected this letter, please select a different letter.");
+
+            } else {
+
+                chosen.push(userGuess);
+            }
+
+
             console.log(chosen);
 
 
