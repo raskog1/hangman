@@ -5,12 +5,19 @@
 }
 
 .container {
-    width: 60%;
+    width: 100%;
     margin: auto;
     text-align: center;
     padding: 10px;
+    border: 2px solid black;
 }
 
 h1 {
     background-color: sandybrown;
+    text-align: center;
+    border: 2px solid black;
+}
+
+#getLosses-text #getWins-text {
+    display: inline;
 }

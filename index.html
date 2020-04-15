@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>JavaScript Hangman</title>
 </head>
 
@@ -17,13 +17,15 @@
     <div class="container">
 
         <h3 id="directions-text"></h3>
-
-        <p id="displaySplitChar-text"></p>
+        <br>
+        <h2 id="displaySplitChar-text"></h2>
+        <br>
         <!-- <p id="demo"></p> -->
         <p id="displayHiddenMovie-text"></p>
         <p id="hiddenMovie-text"></p>
-        <p id="displayRetainChar-text"></p>
         <p id="remainingGuesses-text"></p>
+
+        <img height="350px">
         <p id="chosenGuesses-text"></p>
         <br>
         <br>
@@ -36,6 +38,8 @@
 
         // List of puzzles
         let movies = [
+
+
             "mulholland drive",
             "persona",
             "seven samurai",
@@ -137,8 +141,8 @@
         let remainingGuesses = document.getElementById("remainingGuesses-text");
         let displayHiddenMovie = document.getElementById("displayHiddenMovie-text");
         let displaySplitChar = document.getElementById("displaySplitChar-text");
-        let displayRetainChar = document.getElementById("displayRetainChar-text");
         let chosenGuesses = document.getElementById("chosenGuesses-text");
+        let currentImage = document.querySelectorAll("img");
         let displayWins = document.getElementById("getWins-text");
         let displayLosses = document.getElementById("getLosses-text");
 
@@ -150,8 +154,6 @@
         let chosen = [];
 
         console.log(randomMovie.toUpperCase());
-
-        directionsText.textContent = "Welcome to Criterion Hangman!"
 
 
 
@@ -192,53 +194,53 @@
         // Starts first game and displays puzzle in browser
         hideMovie(randomMovie);
         directionsText.textContent = "Press any letter to make a guess.";
+        currentImage[0].setAttribute("src", "./assets/hangman1.png");
         displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
 
-
         console.log(splitChar.join(" "));
-
 
         let gameOver = false;
         let wins = 0;
         let losses = 0;
-
+        let whatImage = 1;
 
         document.onkeyup = function (event) {
-
 
             let userGuess = event.key;
             let guessStatus = 0;
             const letters = /^[A-Za-z]+$/;
 
-
+            function resetGame(gameOver) {
+                randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                splitChar = randomMovie.split("");
+                hideMovie(randomMovie);
+                displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
+                console.log("New random movie is: " + randomMovie);
+                console.log("The new splitchar looks liek: " + splitChar);
+                wrongGuess = 6;
+                chosen.length = 0;
+                whatImage = 1;
+                currentImage[0].setAttribute("src", "./assets/hangman1.png");
+                gameOver = false;
+            }
 
             // Verifies if an alpha character was selected.
             if (userGuess.match(letters)) {
-
                 if (userGuess == chosen[i]) {
-
                 }
-
             } else {
-
                 alert("Please select a letter.");
                 wrongGuess++;
             }
 
-
             // This checks to see if a guess is being duplicated.
             if (chosen.includes(userGuess)) {
-
                 alert("You already selected this letter, please select a different letter.");
-
             } else {
-
                 chosen.push(userGuess);
             }
 
-
             console.log(chosen);
-
 
             // This loop checks to see if the entered letter matches those in the puzzle
             for (i = 0; i < splitChar.length; i++) {
@@ -263,42 +265,28 @@
                     // If no underscores remain, this action runs and ends the loop
                     alert("You've won! The solution was: " + randomMovie.toUpperCase() + " Press OK to play again");
                     displaySplitChar.textContent = (randomMovie.toUpperCase());
-                    chosen.length = 0;
-                    gameOver = true;
                     wins++;
                     displayWins.textContent = "Wins: " + wins;
-                    wrongGuess = 6;
                     i = splitChar.length;
+                    resetGame(true);
                 }
             }
 
             // This checks to see if there was a matching guess, if not, remaining guesses goes down
             if (guessStatus === 0) {
                 wrongGuess--;
+                whatImage++;
+                console.log("whatimage is currently " + whatImage);
+                currentImage[0].setAttribute("src", "./assets/hangman" + whatImage + ".png");
             }
 
             // This checks to see if the user has run out of guesses
             if (wrongGuess === 0) {
-
                 displaySplitChar.textContent = (randomMovie.toUpperCase());
                 alert("Sorry, you lose. The correct solution was: " + randomMovie.toUpperCase() + "  Press OK to play again.");
-                gameOver = true;
                 losses++;
                 displayLosses.textContent = "Losses: " + losses;
-                wrongGuess = 6;
-                chosen.length = 0;
-            }
-
-            // This resets the game when gameOver become true
-            if (gameOver) {
-
-                randomMovie = movies[Math.floor(Math.random() * movies.length)];
-                splitChar = randomMovie.split("");
-                hideMovie(randomMovie);
-                displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
-                console.log("New random movie is: " + randomMovie);
-                console.log("The new splitchar looks liek: " + splitChar);
-                gameOver = false;
+                resetGame(true);
             }
 
             console.log(splitChar.join(" "));
