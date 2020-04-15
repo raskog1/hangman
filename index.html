@@ -14,7 +14,7 @@
         <h1>Welcome to Criterion Hangman!</h1>
         <p id="directions-text"></p>
 
-        <h2 id="displaySplitChar-text"></h2>
+        <p id="displaySplitChar-text"></p>
         <!-- <p id="demo"></p> -->
         <p id="displayHiddenMovie-text"></p>
         <p id="hiddenMovie-text"></p>
@@ -163,8 +163,6 @@
 
                 if (splitChar[i] == " ") {
 
-                    //splitChar[i] = \s;
-
                 } else if (splitChar[i] == ",") {
 
                 } else if (splitChar[i] == "-") {
@@ -179,8 +177,18 @@
             }
         }
 
+        function encodeWhiteSpaces(str) {
+            return str.split('').map(function (c) {
+                if (c === ' ') {
+                    return '&nbsp;&nbsp;'
+                } else {
+                    return c;
+                }
+            }).join('');
+        }
+
         hideMovie(randomMovie);
-        displaySplitChar.textContent = "Current puzzle: " + (splitChar.join(" "));
+        displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
 
 
         console.log(splitChar.join(" "));
@@ -196,24 +204,23 @@
 
             let userGuess = event.key;
             let guessStatus = 0;
-            const letters = /[A-Za-z]/;
+            const letters = /^[A-Za-z]+$/;
 
 
 
             // Verifies if an alpha character was selected.
-            for (i = 0; i < chosen[i]; i++) {
+            if (userGuess.match(letters)) {
 
-                if (userGuess.match(letters)) {
+                if (userGuess == chosen[i]) {
 
-                    if (userGuess == chosen[i]) {
-
-                    }
-
-                } else {
-                    alert("Please select a letter.");
-                    wrongGuess++;
                 }
+
+            } else {
+
+                alert("Please select a letter.");
+                wrongGuess++;
             }
+
 
             // This checks to see if a guess is being duplicated.
             if (chosen.includes(userGuess)) {
@@ -235,7 +242,7 @@
                 if (userGuess.toLowerCase() === randomMovie[i]) {
                     console.log("We've got a match!");
                     splitChar[i] = randomMovie[i].toUpperCase();
-                    displaySplitChar.textContent = "Current puzzle: " + splitChar.join(" ");
+                    displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
                     guessStatus++;
                 }
             }
@@ -284,7 +291,7 @@
                 randomMovie = movies[Math.floor(Math.random() * movies.length)];
                 splitChar = randomMovie.split("");
                 hideMovie(randomMovie);
-                displaySplitChar.textContent = "Current puzzle: " + splitChar.join(" ");
+                displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
                 console.log("New random movie is: " + randomMovie);
                 console.log("The new splitchar looks liek: " + splitChar);
                 gameOver = false;
