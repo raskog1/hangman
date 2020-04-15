@@ -4,15 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" type="text/stylesheet" href="style.css">
     <title>JavaScript Hangman</title>
 </head>
 
 <body>
 
+    <header>
+        <h1>Wild Wild West<br>Criterion Hangman</h1>
+    </header>
+
     <div class="container">
-        <h1>Welcome to Criterion Hangman!</h1>
-        <p id="directions-text"></p>
+
+        <h3 id="directions-text"></h3>
 
         <p id="displaySplitChar-text"></p>
         <!-- <p id="demo"></p> -->
@@ -145,15 +149,10 @@
         let wrongGuess = 6;
         let chosen = [];
 
-        // console.log(randomMovie.length);
         console.log(randomMovie.toUpperCase());
 
-        //displaySplitChar.textContent = splitChar.join(" ");
-
-        //displayHiddenMovie.textContent = "Your puzzle is: " + splitChar;
-
         directionsText.textContent = "Welcome to Criterion Hangman!"
-        //displayRetainChar.textContent = "Your split retained chars are " + retainChar;
+
 
 
         // Initializes first puzzle (Can't get || to work on the if statement, resulting in a lot of else if's)
@@ -177,6 +176,7 @@
             }
         }
 
+        // Allows for the display of spaces between words in the browser
         function encodeWhiteSpaces(str) {
             return str.split('').map(function (c) {
                 if (c === ' ') {
@@ -187,7 +187,11 @@
             }).join('');
         }
 
+        //alert("Welcome to the wild wild west, where justice is decided by a bizarre game of hangman from the future.  Press OK to walk the gallows and play.")
+
+        // Starts first game and displays puzzle in browser
         hideMovie(randomMovie);
+        directionsText.textContent = "Press any letter to make a guess.";
         displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
 
 
@@ -303,15 +307,13 @@
             remainingGuesses.textContent = "You have " + wrongGuess + " remaining guesses.";
             chosenGuesses.textContent = "So far, you have chosen the following letters: " + chosen;
 
+            // Hide the directions
+            directionsText.textContent = "";
+
         }
 
 
-        // Remaining guesses
 
-
-
-        // Hide the directions
-        directionsText.textContent = "";
 
     </script>
 
