@@ -21,17 +21,9 @@
         <br>
         <h2 id="displaySplitChar-text"></h2>
         <br>
-        <!-- <p id="demo"></p> -->
-        <p id="displayHiddenMovie-text"></p>
-        <p id="hiddenMovie-text"></p>
         <p id="remainingGuesses-text"></p>
-
         <img height="350px">
         <p id="chosenGuesses-text"></p>
-        <!-- <br>
-        <br>
-        <p id="getWins-text"></p>
-        <p id="getLosses-text"></p> -->
 
     </div>
 
@@ -143,29 +135,23 @@
 
         // Display variables for HTML
         let directionsText = document.getElementById("directions-text");
-        let hiddenMovie = document.getElementById("hiddenMovie-text");
         let remainingGuesses = document.getElementById("remainingGuesses-text");
         let displayHiddenMovie = document.getElementById("displayHiddenMovie-text");
         let displaySplitChar = document.getElementById("displaySplitChar-text");
         let chosenGuesses = document.getElementById("chosenGuesses-text");
         let currentImage = document.querySelectorAll("img");
+        let background = document.querySelector("div");
         let displayWins = document.getElementById("getWins-text");
         let displayLosses = document.getElementById("getLosses-text");
 
         // Variables used in game
         let randomMovie = movies[Math.floor(Math.random() * movies.length)];
         let splitChar = randomMovie.split("");
-        let retainChar = randomMovie.split("");
         let wrongGuess = 6;
         let chosen = [];
-        let gameOver = false;
         let wins = 0;
         let losses = 0;
         let whatImage = 1;
-
-        console.log(randomMovie.toUpperCase());
-
-
 
         // Initializes first puzzle (Can't get || to work on the if statement, resulting in a lot of else if's)
         function hideMovie(randomMovie) {
@@ -199,18 +185,17 @@
             }).join('');
         }
 
-        //alert("Welcome to the wild wild west, where justice is decided by a bizarre game of hangman from the future.  Press OK to walk the gallows and play.")
+        alert("Welcome to the wild wild west, where justice is decided by a bizarre game of hangman from the future. I know, it doesn't make any sense. Press OK to try and slip the noose.")
 
         // Starts first game and displays puzzle in browser
         hideMovie(randomMovie);
         directionsText.textContent = "Press any letter to make a guess.";
         currentImage[0].setAttribute("src", "./assets/hangman1.png");
         displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
+        remainingGuesses.textContent = "You have " + wrongGuess + " remaining guesses.";
+        chosenGuesses.textContent = "So far, you have chosen the following letters: " + chosen.join(", ");
         displayWins.textContent = "Wins: " + wins;
         displayLosses.textContent = "Losses: " + losses;
-
-        //console.log(splitChar.join(" "));
-
 
 
         document.onkeyup = function (event) {
@@ -219,7 +204,8 @@
             let guessStatus = 0;
             const letters = /^[A-Za-z]+$/;
 
-            function resetGame(gameOver) {
+            function resetGame() {
+
                 randomMovie = movies[Math.floor(Math.random() * movies.length)];
                 splitChar = randomMovie.split("");
                 hideMovie(randomMovie);
@@ -227,10 +213,12 @@
                 console.log("New random movie is: " + randomMovie);
                 console.log("The new splitchar looks liek: " + splitChar);
                 wrongGuess = 6;
+                remainingGuesses.textContent = "You have " + wrongGuess + " remaining guesses.";
                 chosen.length = 0;
+                chosenGuesses.textContent = "So far, you have chosen the following letters: " + chosen.join(", ");
                 whatImage = 1;
                 currentImage[0].setAttribute("src", "./assets/hangman1.png");
-                gameOver = false;
+
             }
 
             // Verifies if an alpha character was selected, and then checks for duplicate guesses
@@ -246,7 +234,6 @@
                     for (i = 0; i < splitChar.length; i++) {
 
                         if (userGuess.toLowerCase() === randomMovie[i]) {
-                            console.log("We've got a match!");
                             splitChar[i] = randomMovie[i].toUpperCase();
                             displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
                             guessStatus++;
@@ -257,13 +244,12 @@
                     if (guessStatus === 0) {
                         wrongGuess--;
                         whatImage++;
-                        console.log("whatimage is currently " + whatImage);
                         currentImage[0].setAttribute("src", "./assets/hangman" + whatImage + ".png");
                     }
                 }
 
             } else {
-                alert("Please select a letter.");
+                alert("Please select a letter, ya half-wit.");
             }
 
             // This loop checks to see if the puzzle has been completed
@@ -281,21 +267,31 @@
                     wins++;
                     displayWins.textContent = "Wins: " + wins;
                     i = splitChar.length;
-                    resetGame(true);
+                    resetGame();
                 }
+            }
+
+            function loser() {
+                let timer = setTimeout(loserAlert, 2000);
+            }
+
+            function loserAlert() {
+                alert("Sorry cowboy, the jig is up. The correct solution was: " + randomMovie.toUpperCase() + "  Press OK to play again.");
+                resetGame();
             }
 
             // This checks to see if the user has run out of guesses
             if (wrongGuess === 0) {
-                displaySplitChar.textContent = (randomMovie.toUpperCase());
-                //currentImage[0].setAttribute("src", "./assets/hangman7.png");
-                //alert("Sorry, you lose. The correct solution was: " + randomMovie.toUpperCase() + "  Press OK to play again.");
+
+                displaySplitChar.textContent = randomMovie.toUpperCase();
+                currentImage[0].setAttribute("src", "./assets/hangman7.png");
                 losses++;
                 displayLosses.textContent = "Losses: " + losses;
-                resetGame(true);
+                loser();
+
             }
 
-
+            console.log(randomMovie.toUpperCase());
             console.log(chosen);
             console.log(splitChar.join(" "));
             console.log(guessStatus);
@@ -308,13 +304,8 @@
 
         }
 
-
-
-
     </script>
 
 </body>
-
-
 
 </html>
