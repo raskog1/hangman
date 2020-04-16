@@ -9,15 +9,60 @@
     margin: auto;
     text-align: center;
     padding: 10px;
-    border: 2px solid black;
+    border: 1px solid black;
 }
 
 h1 {
     background-color: sandybrown;
+    font-family: 'Holtwood One SC', serif;
     text-align: center;
     border: 2px solid black;
 }
 
-#getLosses-text #getWins-text {
+footer {
+    background-color: sandybrown;
+    height: 50px;
+    border: 2px solid black;
+    text-align: center;
+}
+
+footer h2 {
+    font-family: 'Holtwood One SC', serif;
     display: inline;
+    margin: auto 10px;
+}
+
+
+@media only screen and (max-width: 640px) {
+
+h1, h2 {
+    font-size: 20px;
+}
+
+img {
+    height: 250px;
+}
+
+footer {
+    height: 40px;
+}
+
+}
+
+
+@media only screen and (max-width: 768px) {
+
+h1 {
+    
+}
+
+
+}
+
+@media only screen and (max-width: 980px) {
+
+h1 {
+    /* font-size: 30px; */
+}
+
 }
