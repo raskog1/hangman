@@ -12,15 +12,21 @@
     border: 1px solid black;
 }
 
-h1 {
-    background-color: sandybrown;
-    font-family: 'Holtwood One SC', serif;
-    text-align: center;
+header {
+    height: 80px;
+    background-color: sienna;
     border: 2px solid black;
 }
 
+h1 {
+    font-family: 'Holtwood One SC', serif;
+    font-size: 30px;
+    line-height: 40px;
+    text-align: center;
+}
+
 footer {
-    background-color: sandybrown;
+    background-color: sienna;
     height: 50px;
     border: 2px solid black;
     text-align: center;
@@ -29,9 +35,12 @@ footer {
 footer h2 {
     font-family: 'Holtwood One SC', serif;
     display: inline;
+    font-size: 22px;
+    line-height: 50px;
     margin: auto 10px;
 }
 
+/* ---Start to media queries, but could not figure out how to display keyboards on mobile devices
 
 @media only screen and (max-width: 640px) {
 
@@ -48,21 +57,4 @@ footer {
 }
 
 }
-
-
-@media only screen and (max-width: 768px) {
-
-h1 {
-    
-}
-
-
-}
-
-@media only screen and (max-width: 980px) {
-
-h1 {
-    /* font-size: 30px; */
-}
-
-}
+*/
