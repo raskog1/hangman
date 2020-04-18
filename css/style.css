@@ -12,8 +12,14 @@
     border: 1px solid black;
 }
 
+.container h2, h3 {
+    font-size: 24px;
+    font-weight: bolder;
+}
+
 header {
     height: 80px;
+    text-align: center;
     background-color: sienna;
     border: 2px solid black;
 }
@@ -22,7 +28,17 @@ h1 {
     font-family: 'Holtwood One SC', serif;
     font-size: 30px;
     line-height: 40px;
-    text-align: center;
+    display: inline-block;
+}
+
+#sixShooter {
+    display: inline-block;
+    padding: 3px;
+    background-color: sienna;
+}
+
+.flip-horizontally {
+    transform: scaleX(-1);
 }
 
 footer {

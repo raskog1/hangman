@@ -16,5 +16,5 @@ In addition, future releases will eliminate the usage of alerts.
 
 ## Authors and Acknowledgements
 
-Justin Singh assisted with the function to eliminate white spaces in the displayed puzzle. 
+Justin Singh assisted with the function to display white spaces in the displayed puzzle. 
 Lindsay Daly conducted testing and provided feedback.

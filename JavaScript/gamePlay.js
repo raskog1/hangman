@@ -263,7 +263,7 @@ let directionsText = document.getElementById("directions-text");
 let remainingGuesses = document.getElementById("remainingGuesses-text");
 let displaySplitChar = document.getElementById("displaySplitChar-text");
 let chosenGuesses = document.getElementById("chosenGuesses-text");
-let currentImage = document.querySelectorAll("img");
+let currentImage = document.getElementById("hangingMan");
 let displayWins = document.getElementById("getWins-text");
 let displayLosses = document.getElementById("getLosses-text");
 
@@ -305,8 +305,8 @@ alert("Welcome to the wild wild west, where justice is decided by a bizarre game
 // Starts first game and displays puzzle in browser
 hideMovie(randomMovie);
 directionsText.textContent = "Press any letter to make a guess.";
-currentImage[0].setAttribute("src", "./assets/hangman1.png");
-displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
+currentImage.setAttribute("src", "./assets/hangman1.png");
+displaySplitChar.innerHTML = "Current puzzle:  " + encodeWhiteSpaces(splitChar.join(" "));
 remainingGuesses.textContent = "You have " + wrongGuess + " remaining guesses.";
 chosenGuesses.textContent = "So far, you have chosen the following letters: " + chosen.join(", ");
 displayWins.textContent = "Wins: " + wins;
@@ -331,13 +331,13 @@ document.onkeyup = function (event) {
             puzzleTracker.push(movies.indexOf(randomMovie));
             splitChar = randomMovie.split("");
             hideMovie(randomMovie);
-            displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
+            displaySplitChar.innerHTML = "Current puzzle:  " + encodeWhiteSpaces(splitChar.join(" "));
             wrongGuess = 6;
             remainingGuesses.textContent = "You have " + wrongGuess + " remaining guesses.";
             chosen.length = 0;
             chosenGuesses.textContent = "So far, you have chosen the following letters: " + chosen.join(", ");
             whatImage = 1;
-            currentImage[0].setAttribute("src", "./assets/hangman1.png");
+            currentImage.setAttribute("src", "./assets/hangman1.png");
 
             // console.log(puzzleTracker);
             // console.log("New random movie is: " + randomMovie);
@@ -384,7 +384,7 @@ document.onkeyup = function (event) {
 
                 if (userGuess.toLowerCase() === randomMovie[i]) {
                     splitChar[i] = randomMovie[i].toUpperCase();
-                    displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
+                    displaySplitChar.innerHTML = "Current puzzle:  " + encodeWhiteSpaces(splitChar.join(" "));
                     guessStatus++;
                 }
             }
@@ -393,7 +393,7 @@ document.onkeyup = function (event) {
             for (i = 0; i < splitChar.length; i++) {
 
                 let stillPlay = splitChar.includes("_");
-                displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
+                displaySplitChar.innerHTML = "Current puzzle:  " + encodeWhiteSpaces(splitChar.join(" "));
 
                 // If underscores still exist, just keep guessing
                 if (stillPlay) {
@@ -410,7 +410,7 @@ document.onkeyup = function (event) {
             if (guessStatus === 0) {
                 wrongGuess--;
                 whatImage++;
-                currentImage[0].setAttribute("src", "./assets/hangman" + whatImage + ".png");
+                currentImage.setAttribute("src", "./assets/hangman" + whatImage + ".png");
             }
 
             // This checks to see if the user has run out of guesses
@@ -422,8 +422,8 @@ document.onkeyup = function (event) {
                     i++;
                 }
 
-                displaySplitChar.innerHTML = "Current puzzle: " + encodeWhiteSpaces(splitChar.join(" "));
-                currentImage[0].setAttribute("src", "./assets/hangman7.png");
+                displaySplitChar.innerHTML = "Current puzzle:  " + encodeWhiteSpaces(splitChar.join(" "));
+                currentImage.setAttribute("src", "./assets/hangman7.png");
 
                 loser();
             }
